@@ -1,6 +1,10 @@
-
 import threading
 import time
+import random
+from queue import Queue
+from ss4task import Task
+
+
 class ProcessorCoreFCFS(threading.Thread):
     def __init__(self, core_id, subsystem):
         super().__init__()
@@ -12,7 +16,7 @@ class ProcessorCoreFCFS(threading.Thread):
     def run(self):
         while self.running:
             if not self.current_task:
-                self.fetch_task() 
+                self.fetch_task()  
             elif self.current_task.state == "Error":
                 self.retry_task() 
             elif self.current_task.state == "Completed":
@@ -30,14 +34,16 @@ class ProcessorCoreFCFS(threading.Thread):
 
     def execute_task(self):
         if self.current_task:
-            self.current_task.execute(1) 
+            self.current_task.execute(1)  
 
     def retry_task(self):
         print(f"Core {self.core_id}: Retrying Task {self.current_task.task_id}.")
-        self.current_task.remaining_time = self.current_task.execution_time  
-        self.current_task.state = "Ready" 
+        self.current_task.remaining_time = self.current_task.execution_time 
+        self.current_task.state = "Ready"  
 
     def complete_task(self):
         print(f"Core {self.core_id}: Task {self.current_task.task_id} completed.")
+        self.subsystem.release_resources(self.current_task) 
         self.subsystem.completed_tasks.add(self.current_task.task_id) 
-        self.current_task = None 
+        self.current_task = None  
+        
