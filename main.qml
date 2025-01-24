@@ -151,44 +151,78 @@ ApplicationWindow {
             }
         }
     }
-    Rectangle {
-        id: queueBar
-        width: 300
-        height: 50
-        color: "lightgray"
-        border.color: "black"
-        border.width: 2
-        radius: 5
-        anchors.centerIn: parent
+    // Rectangle {
+    //     id: queueBar
+    //     width: 300
+    //     height: 50
+    //     color: "lightgray"
+    //     border.color: "black"
+    //     border.width: 2
+    //     radius: 5
+    //     anchors.centerIn: parent
 
-        property int queueSize: 5 // Total capacity of the queue
-        property int filledSize: 3 // Current number of items in the queue
+    //     property int queueSize: 5 // Total capacity of the queue
+    //     property int filledSize: 3 // Current number of items in the queue
 
-        // Visual representation of filled items
+    //     // Visual representation of filled items
         
-        Row {
-            spacing: 5
-            anchors.fill: parent
-            anchors.margins: 5
-            // Repeater {
-            //     // model: ["1", "2", "3", "4"]
-            //     model: monitor_pyside.ready_queue_pyside
-            //     Rectangle {
-            //         // width: (queueBar.width - 10 - (modelData - 1) * 5) / queueBar.queueSize
-            //         height: queueBar.height - 10
-            //         color: index < queueBar.filledSize ? "green" : "white"
-            //         border.color: "black"
-            //         radius: 3
-            //     }
-            // }
-            Repeater {
-                model: monitor_pyside.ready_queue_pyside
-                Rectangle {
-                    width: 50
-                    height: 50
-                    color: "green"
-                    Text { text: modelData }
+    //     Row {
+    //         spacing: 5
+    //         anchors.fill: parent
+    //         anchors.margins: 5
+    //         Repeater {
+    //             model: monitor_pyside.ready_queue_pyside
+    //             Rectangle {
+    //                 width: 50
+    //                 height: 50
+    //                 color: "green"
+    //                 Text { text: modelData }
+    //             }
+    //         }
+    //     }
+    // }
+    Row {
+    spacing: 10
+    anchors.fill: parent
+    anchors.margins: 10
+
+        Rectangle {
+            width: parent.width
+            height: 100
+            color: "transparent"
+            border.color: "black"
+            border.width: 2
+            radius: 10
+
+            Row {
+                spacing: 10
+                anchors.fill: parent
+                anchors.margins: 10
+
+                Repeater {
+                    model: monitor_pyside.ready_queue_pyside
+                    Rectangle {
+                        width: 70
+                        height: 50
+                        color: "green" // Highlight the first task
+                        border.color: "black"
+                        border.width: 1
+                        radius: 5
+                        Text {
+                            anchors.centerIn: parent
+                            text: modelData
+                            font.bold: index === 0
+                        }
+                    }
                 }
+            }
+
+            Text {
+                anchors.bottom: parent.bottom
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.margins: 5
+                text: "Queue"
+                font.pixelSize: 14
             }
         }
     }

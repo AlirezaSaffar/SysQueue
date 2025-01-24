@@ -126,7 +126,7 @@ class Monitorer(QObject):
         myqueue = ["1"]
         for i in range(5):
             time.sleep(1)
-            myqueue.append(i)
+            myqueue.append("task"+ str(i+1))
             self.set_ready_queue(myqueue)
     
 
