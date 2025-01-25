@@ -11,6 +11,7 @@ class ProcessorCoreSRJF(threading.Thread):
         self.current_task = None
         self.taskss4=False
         self.tasksubnet3=None
+        self.running_task = None # added newly...
         
         self.sync_barrier = None
         
@@ -21,6 +22,7 @@ class ProcessorCoreSRJF(threading.Thread):
         while self.running:
             if self.taskss4 is True and self.tasksubnet3 is not None:
                 print(f"Core {self.core_id}: Executing Task {self.tasksubnet3.task_id}")
+                self.running_task = self.tasksubnet3 # added newly...
                 self.tasksubnet3.execute(1)
                 if self.tasksubnet3.remaining_time is 0:
                     self.taskss4=False
@@ -36,7 +38,6 @@ class ProcessorCoreSRJF(threading.Thread):
                 print(f"Core {self.core_id}: Task {self.current_task.task_id} completed.")
                 self.current_task = None
             else:
-               
                 self.execute_task()
 
             # time.sleep(1) 
@@ -49,6 +50,7 @@ class ProcessorCoreSRJF(threading.Thread):
     def fetch_task(self):
         if not self.subsystem.ready_queue.empty():
             _, task = self.subsystem.ready_queue.get()
+            self.running_task = task #added newly
             if self.subsystem.check_resources(task):
                
                 self.subsystem.allocate_resources(task)

@@ -12,6 +12,7 @@ class ProcessorCoreFCFS(threading.Thread):
         self.subsystem = subsystem
         self.running = True
         self.current_task = None
+        self.running_task = None
         
         self.sync_barrier = None
 
@@ -40,6 +41,7 @@ class ProcessorCoreFCFS(threading.Thread):
     def fetch_task(self):
         if not self.subsystem.ready_queue.empty():
             self.current_task = self.subsystem.ready_queue.get()
+            self.running_task = self.current_task
             print(f"Core {self.core_id}: Started Task {self.current_task.task_id}.")
 
     def execute_task(self):

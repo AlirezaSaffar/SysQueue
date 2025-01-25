@@ -68,8 +68,8 @@ class Monitorer(QObject):
         return self.ready_queue_subsys2
     
     def set_ready_queue_subsys2(self, value):
-        print()
-        print(f"set is being called. for subsys2 with the value of {value}////////////////////////////////////////////////////")
+        # print()
+        # print(f"set is being called. for subsys2 with the value of {value}////////////////////////////////////////////////////")
         self.ready_queue_subsys2 = value
         self.ready_queue_subsys2_changed.emit()
         # print(f"set is being called! , {value}")
@@ -82,8 +82,8 @@ class Monitorer(QObject):
         return self.ready_queue_subsys3
     
     def set_ready_queue_subsys3(self, value):
-        print()
-        print(f"set is being called. for subsys3 with the value of {value}///////////////////////////////////////////////////")
+        # print()
+        # print(f"set is being called. for subsys3 with the value of {value}///////////////////////////////////////////////////")
         self.ready_queue_subsys3 = value
         self.ready_queue_subsys3_changed.emit()
         # print(f"set is being called! , {value}")
@@ -274,7 +274,6 @@ class Monitorer(QObject):
         waiting_queue_thread.start()
         
         ##//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
         threading.Thread(target=self.monitorer_name, args=(subsystem1.ready_queues[0], "set_ready_queue_subsys1_1")).start()
         threading.Thread(target=self.monitorer_name, args=(subsystem1.ready_queues[1], "set_ready_queue_subsys1_2")).start()

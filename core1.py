@@ -12,6 +12,8 @@ class ProcessorCore(threading.Thread):
         self.taskss4=False
         self.tasksubnet3=None
         
+        self.running_task = None # added newly...
+        
         self.sync_barrier = None
         
     def set_sync_barrier(self, barrier):
@@ -21,6 +23,9 @@ class ProcessorCore(threading.Thread):
         while self.running:
             if self.taskss4 is True:
                 print(f"Core {self.core_id}: Executing Task {self.tasksubnet3.task_id}")
+                
+                self.running_task = self.tasksubnet3 # added newly...
+                
                 self.tasksubnet3.execute(1)
                 if self.tasksubnet3.remaining_time == 0:
                     self.taskss4=False
@@ -29,6 +34,7 @@ class ProcessorCore(threading.Thread):
                 
             if not self.ready_queue.empty():
                 task = self.ready_queue.get()
+                self.running_task = task # added newly...
                 # task_ids = [task.task_id for task in list(self.ready_queue.queue)]
                 # print(f"[CORE1] updated after get: {task_ids}, for core id: {self.core_id}")
                 

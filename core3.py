@@ -8,6 +8,7 @@ class ProcessorCoreRateMonotonic(threading.Thread):
         self.subsystem = subsystem
         self.running = True
         self.current_task = None
+        self.running_task = None #added newl...
         
         self.sync_barrier = None
 
@@ -38,6 +39,8 @@ class ProcessorCoreRateMonotonic(threading.Thread):
             _,_, task = self.subsystem.ready_queue.get()
             self.subsystem.allocate_resources(task)
             self.current_task = task
+            self.running_task = task
+            
             print(f"Core: Started Task {task.task_id} with period {task.period}")
 
     def execute_task(self):
