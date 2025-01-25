@@ -10,38 +10,91 @@ class Monitorer(QObject):
     def __init__(self):
         super().__init__()
         self.subsys1 = "help me god"  # Private attribute to store the actual value
-        self.ready_queue = ["task1", "task2", "task3"]
+        self.ready_queue_subsys1_1 = ["task1", "task2", "task3"]
+        self.ready_queue_subsys1_2 = []
+        self.ready_queue_subsys1_3 = []
+        self.ready_queue_subsys2 = []
+        self.ready_queue_subsys3 = []
+        
         t = threading.Thread(target=self.the_main_func)
         t.start()
-        
-    def get_subsys1(self):
-        return self.subsys1
-    
-    def set_subsys1(self, value):
-        print("the subsys is being called.")
-        if self.subsys1 != value:
-            self.subsys1 = value
-            self.subsys1_changed.emit()  # Emit the signal when the value changes
-    
-    subsys1_changed = Signal()
-    
-    subsys1_pyside = Property(str, get_subsys1, set_subsys1, notify=subsys1_changed)
 
+    #########################################################################
+    # setter and getter for subsys1 queue 1:#################################
     def get_ready_queue_subsys1_1(self):
-        print(f"get is being called!,{self.ready_queue}")
-        return self.ready_queue
+        print(f"get is being called!,{self.ready_queue_subsys1_1}")
+        return self.ready_queue_subsys1_1
     
     def set_ready_queue_subsys1_1(self, value):
-        self.ready_queue = value
+        self.ready_queue_subsys1_1 = value
         self.ready_queue_subsys1_1_changed.emit()
         print(f"set is being called! , {value}")
+    #########################################################################
+        
+    #########################################################################
+    # setter and getter for subsys1 queue 2:#################################
+    def get_ready_queue_subsys1_2(self):
+        print(f"get is being called!,{self.ready_queue_subsys1_1}")
+        return self.ready_queue_subsys1_2
+    
+    def set_ready_queue_subsys1_2(self, value):
+        self.ready_queue_subsys1_2 = value
+        self.ready_queue_subsys1_2_changed.emit()
+        print(f"set is being called! , {value}")
+    #########################################################################
+    
+    #########################################################################
+    # setter and getter for subsys1 queue 3:#################################
+    def get_ready_queue_subsys1_3(self):
+        print(f"get is being called!,{self.ready_queue_subsys1_1}")
+        return self.ready_queue_subsys1_3
+    
+    def set_ready_queue_subsys1_3(self, value):
+        self.ready_queue_subsys1_3 = value
+        self.ready_queue_subsys1_3_changed.emit()
+        print(f"set is being called! , {value}")
+    #########################################################################
+    
+    #########################################################################
+    # setter and getter for subsys2:#########################################
+    def get_ready_queue_subsys2(self):
+        print(f"get is being called!,{self.ready_queue_subsys1_1}")
+        return self.ready_queue_subsys2
+    
+    def set_ready_queue_subsys2(self, value):
+        self.ready_queue_subsys2 = value
+        self.ready_queue_subsys2_changed.emit()
+        print(f"set is being called! , {value}")
+    #########################################################################
+    
+    #########################################################################
+    # setter and getter for subsys3:#########################################
+    def get_ready_queue_subsys3(self):
+        print(f"get is being called!,{self.ready_queue_subsys1_1}")
+        return self.ready_queue_subsys3
+    
+    def set_ready_queue_subsys3(self, value):
+        self.ready_queue_subsys3 = value
+        self.ready_queue_subsys3_changed.emit()
+        print(f"set is being called! , {value}")
+    #########################################################################
 
     ready_queue_subsys1_1_changed = Signal()
+    ready_queue_subsys1_2_changed = Signal()
+    ready_queue_subsys1_3_changed = Signal()
+    ready_queue_subsys2_changed = Signal()
+    ready_queue_subsys3_changed = Signal()
     
-    ready_queue_subsys1_1 = Property(list, get_ready_queue_subsys1_1, set_ready_queue_subsys1_1, notify=ready_queue_subsys1_1_changed)
+    back_end_ready_queue_subsys1_1 = Property(list, get_ready_queue_subsys1_1, set_ready_queue_subsys1_1, notify=ready_queue_subsys1_1_changed)
+    back_end_ready_queue_subsys1_2 = Property(list, get_ready_queue_subsys1_2, set_ready_queue_subsys1_2, notify=ready_queue_subsys1_2_changed)
+    back_end_ready_queue_subsys1_3 = Property(list, get_ready_queue_subsys1_3, set_ready_queue_subsys1_3, notify=ready_queue_subsys1_3_changed)
+    back_end_ready_queue_subsys2 = Property(list, get_ready_queue_subsys2, set_ready_queue_subsys2, notify=ready_queue_subsys2_changed)
+    back_end_ready_queue_subsys3 = Property(list, get_ready_queue_subsys3, set_ready_queue_subsys3, notify=ready_queue_subsys3_changed)
     
-
-    def monitorer(self, queue_to_check):
+    ###########################################################################################################################################
+                
+                
+    def monitorer_name(self, queue_to_check, setter_name):
         """Monitor changes in a Queue."""
         print(f"[PYSIDE MONITOR] {queue_to_check.queue}")
         previous_state = list(queue_to_check.queue)  # Get the initial state
@@ -53,7 +106,16 @@ class Monitorer(QObject):
                 # Extract task IDs or other attributes
                 task_ids = [task.task_id for task in current_state]  # Extract task IDs
                 # Pass the extracted list to another function
-                self.set_ready_queue_subsys1_1(task_ids)
+                if setter_name == "set_ready_queue_subsys1_1":
+                    self.set_ready_queue_subsys1_1(task_ids)
+                elif setter_name == "set_ready_queue_subsys1_2":
+                    self.set_ready_queue_subsys1_2(task_ids)
+                elif setter_name == "set_ready_queue_subsys1_3":
+                    self.set_ready_queue_subsys1_3(task_ids)
+                elif setter_name == "set_ready_queue_subsys2":
+                    self.set_ready_queue_subsys2(task_ids)
+                elif setter_name == "set_ready_queue_subsys3":
+                    self.set_ready_queue_subsys3(task_ids)
                 # Update the previous state
                 previous_state = current_state
                 
@@ -165,7 +227,11 @@ class Monitorer(QObject):
 
         subsystem1.start()
         
-        threading.Thread(target=self.monitorer, args=(subsystem1.ready_queues[0],)).start()
+        threading.Thread(target=self.monitorer_name, args=(subsystem1.ready_queues[0], "set_ready_queue_subsys1_1")).start()
+        threading.Thread(target=self.monitorer_name, args=(subsystem1.ready_queues[1], "set_ready_queue_subsys1_2")).start()
+        threading.Thread(target=self.monitorer_name, args=(subsystem1.ready_queues[2], "set_ready_queue_subsys1_3")).start()
+        # threading.Thread(target=self.monitorer_name, args=(subsystem2.ready_queue, "set_ready_queue_subsys2")).start()
+        # threading.Thread(target=self.monitorer_name, args=(subsystem3.ready_queue, "set_ready_queue_subsys3")).start()
         
 
         # threading.Barrier
@@ -174,11 +240,11 @@ class Monitorer(QObject):
 
         subsystem1.stop()
 
-        myqueue = ["1"]
-        for i in range(5):
-            time.sleep(1)
-            myqueue.append("task"+ str(i+1))
-            self.set_ready_queue_subsys1_1(myqueue)
+        # myqueue = ["1"]
+        # for i in range(5):
+        #     time.sleep(1)
+        #     myqueue.append("task"+ str(i+1))
+        #     self.set_ready_queue_subsys1_1_subsys1_1(myqueue)
     
 
     def additional_task(self, hi):
