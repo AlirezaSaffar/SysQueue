@@ -1,6 +1,10 @@
 from PySide6.QtCore import QObject, Property, Signal
 import threading
 import time
+from queue import Queue
+from task import Task
+from core1 import ProcessorCore
+from subsystem1 import Subsystem1
 
 class Monitorer(QObject):
     def __init__(self):
@@ -9,7 +13,6 @@ class Monitorer(QObject):
         self.ready_queue = ["task1", "task2", "task3"]
         t = threading.Thread(target=self.the_main_func)
         t.start()
-        
         
     def get_subsys1(self):
         return self.subsys1
@@ -24,27 +27,41 @@ class Monitorer(QObject):
     
     subsys1_pyside = Property(str, get_subsys1, set_subsys1, notify=subsys1_changed)
 
-    def get_ready_queue(self):
+    def get_ready_queue_subsys1_1(self):
         print(f"get is being called!,{self.ready_queue}")
         return self.ready_queue
     
-    def set_ready_queue(self, value):
+    def set_ready_queue_subsys1_1(self, value):
         self.ready_queue = value
-        self.ready_queue_changed.emit()
+        self.ready_queue_subsys1_1_changed.emit()
         print(f"set is being called! , {value}")
 
-    ready_queue_changed = Signal()
+    ready_queue_subsys1_1_changed = Signal()
     
-    # ready_queue_pyside = Property(QVariant, get_ready_queue, set_ready_queue, notify=ready_queue_changed)
-    ready_queue_pyside = Property(list, get_ready_queue, set_ready_queue, notify=ready_queue_changed)
+    ready_queue_subsys1_1 = Property(list, get_ready_queue_subsys1_1, set_ready_queue_subsys1_1, notify=ready_queue_subsys1_1_changed)
+    
 
+    def monitorer(self, queue_to_check):
+        """Monitor changes in a Queue."""
+        print(f"[PYSIDE MONITOR] {queue_to_check.queue}")
+        previous_state = list(queue_to_check.queue)  # Get the initial state
+        while True:
+            time.sleep(0.5)
+            current_state = list(queue_to_check.queue)  # Current snapshot of the queue
+            # print(f"\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\current state is: {current_state}")
+            if previous_state != current_state:                
+                # Extract task IDs or other attributes
+                task_ids = [task.task_id for task in current_state]  # Extract task IDs
+                # Pass the extracted list to another function
+                self.set_ready_queue_subsys1_1(task_ids)
+                # Update the previous state
+                previous_state = current_state
+                
 
     def the_main_func(self):
         # Initialize arrays for subsystems and tasks
         subsystem_tasks = [[] for _ in range(4)]  # Create a list to store tasks for each subsystem
         subsys_resource = []
-        
-        self.set_ready_queue(["task1", "task2", "task3"])
 
         # Step 1: Read resource allocation for each subsystem
         # print("Enter resources for each subsystem:")
@@ -122,12 +139,46 @@ class Monitorer(QObject):
         #     print(f"\nTasks for Subsystem {i + 1}:")
         #     for task in tasks:
         #         print(task)
+        self.set_ready_queue_subsys1_1(["task1", "task2", "task3"])
+        
+        subsystem1 = Subsystem1(r1_count=5, r2_count=3, time_slice=2)
+        
+        task1 = Task(task_id=1, execution_time=10, weight=2, required_r1=1, required_r2=1)
+        task2 = Task(task_id=2, execution_time=8, weight=3, required_r1=1, required_r2=2)
+        task3 = Task(task_id=3, execution_time=12, weight=1, required_r1=1, required_r2=2)
+        task4 = Task(task_id=4, execution_time=10, weight=2, required_r1=1, required_r2=1)
+        task5 = Task(task_id=5, execution_time=8, weight=3, required_r1=1, required_r2=2)
+        task6 = Task(task_id=6, execution_time=12, weight=1, required_r1=1, required_r2=2)
+        task7 = Task(task_id=7, execution_time=10, weight=2, required_r1=1, required_r2=1)
+        task8 = Task(task_id=8, execution_time=8, weight=3, required_r1=1, required_r2=2)
+        task9 = Task(task_id=9, execution_time=12, weight=1, required_r1=1, required_r2=2)
+
+        subsystem1.add_task(task1)
+        subsystem1.add_task(task2)
+        subsystem1.add_task(task3)
+        subsystem1.add_task(task4)
+        subsystem1.add_task(task5)
+        subsystem1.add_task(task6)
+        subsystem1.add_task(task7)
+        subsystem1.add_task(task8)
+        subsystem1.add_task(task9)
+
+        subsystem1.start()
+        
+        threading.Thread(target=self.monitorer, args=(subsystem1.ready_queues[0],)).start()
+        
+
+        # threading.Barrier
+        
+        time.sleep(20)
+
+        subsystem1.stop()
 
         myqueue = ["1"]
         for i in range(5):
             time.sleep(1)
             myqueue.append("task"+ str(i+1))
-            self.set_ready_queue(myqueue)
+            self.set_ready_queue_subsys1_1(myqueue)
     
 
     def additional_task(self, hi):

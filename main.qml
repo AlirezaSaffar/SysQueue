@@ -151,36 +151,6 @@ ApplicationWindow {
             }
         }
     }
-    // Rectangle {
-    //     id: queueBar
-    //     width: 300
-    //     height: 50
-    //     color: "lightgray"
-    //     border.color: "black"
-    //     border.width: 2
-    //     radius: 5
-    //     anchors.centerIn: parent
-
-    //     property int queueSize: 5 // Total capacity of the queue
-    //     property int filledSize: 3 // Current number of items in the queue
-
-    //     // Visual representation of filled items
-        
-    //     Row {
-    //         spacing: 5
-    //         anchors.fill: parent
-    //         anchors.margins: 5
-    //         Repeater {
-    //             model: monitor_pyside.ready_queue_pyside
-    //             Rectangle {
-    //                 width: 50
-    //                 height: 50
-    //                 color: "green"
-    //                 Text { text: modelData }
-    //             }
-    //         }
-    //     }
-    // }
     Row {
     spacing: 10
     anchors.fill: parent
@@ -200,7 +170,7 @@ ApplicationWindow {
                 anchors.margins: 10
 
                 Repeater {
-                    model: monitor_pyside.ready_queue_pyside
+                    model: monitor_pyside.ready_queue_subsys1_1
                     Rectangle {
                         width: 70
                         height: 50
@@ -216,17 +186,16 @@ ApplicationWindow {
                     }
                 }
             }
-
-            Text {
-                anchors.bottom: parent.bottom
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.margins: 5
-                text: "Queue"
-                font.pixelSize: 14
-            }
+            // Text {
+            //     anchors.bottom: parent.bottom
+            //     anchors.horizontalCenter: parent.horizontalCenter
+            //     anchors.margins: 5
+            //     text: "Queue"
+            //     font.pixelSize: 14
+            // }
         }
     }
     Button {
-        onClicked: console.log(monitor_pyside.ready_queue_pyside)
+        onClicked: console.log(monitor_pyside.ready_queue_subsys1_1)
     }
 }
