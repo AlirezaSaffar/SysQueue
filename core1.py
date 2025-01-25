@@ -17,16 +17,16 @@ class ProcessorCore(threading.Thread):
             if self.taskss4 is True:
                 print(f"Core {self.core_id}: Executing Task {self.tasksubnet3.task_id}")
                 self.tasksubnet3.execute(1)
-                if self.tasksubnet3.remaining_time is 0:
+                if self.tasksubnet3.remaining_time == 0:
                     self.taskss4=False
                     self.tasksubnet3=None
                 continue
                 
             if not self.ready_queue.empty():
                 task = self.ready_queue.get()
+                # task_ids = [task.task_id for task in list(self.ready_queue.queue)]
+                # print(f"[CORE1] updated after get: {task_ids}, for core id: {self.core_id}")
                 
-
-              
                 if self.subsystem.check_resources(task):
                     print(f"Core {self.core_id}: Executing Task {task.task_id}")
                     weighted_time_slice = self.time_slice * task.weight  
@@ -37,9 +37,10 @@ class ProcessorCore(threading.Thread):
                         time.sleep(1)
                     
                     if task.remaining_time > 0:
-                        self.ready_queue.put(task) 
+                        self.ready_queue.put(task)
                     else:
                         print(f"Task {task.task_id} completed on Core {self.core_id}")
+                        # self.ready_queue.get()
                     
                     self.subsystem.release_resources(task) 
                 else:

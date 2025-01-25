@@ -95,16 +95,15 @@ class Monitorer(QObject):
                 
                 
     def monitorer_name(self, queue_to_check, setter_name):
-        """Monitor changes in a Queue."""
-        print(f"[PYSIDE MONITOR] {queue_to_check.queue}")
+        # print(f"[PYSIDE MONITOR] {queue_to_check.queue}")
         previous_state = list(queue_to_check.queue)  # Get the initial state
         while True:
             time.sleep(0.5)
             current_state = list(queue_to_check.queue)  # Current snapshot of the queue
             # print(f"\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\current state is: {current_state}")
             if previous_state != current_state:                
-                # Extract task IDs or other attributes
-                task_ids = [task.task_id for task in current_state]  # Extract task IDs
+                task_ids = [task.task_id for task in current_state]
+                # print(f"[PYSIDE FUNC MONITOR] here is the updated list{task_ids} , this is the one calling: {setter_name}")
                 # Pass the extracted list to another function
                 if setter_name == "set_ready_queue_subsys1_1":
                     self.set_ready_queue_subsys1_1(task_ids)
@@ -124,7 +123,7 @@ class Monitorer(QObject):
         
         ###############################################################
         # this is for input:###########################################
-        subsys_resource, subsystem_tasks = self.collect_input()
+        # subsys_resource, subsystem_tasks = self.collect_input()
 
         #this is for debugge
         # print("Subsystem Resources:", subsys_resource)
@@ -157,6 +156,9 @@ class Monitorer(QObject):
         subsystem1.add_task(task9)
 
         subsystem1.start()
+        waiting_queue_thread = threading.Thread(target=subsystem1.manage_waiting_queue)
+        waiting_queue_thread.daemon = True
+        waiting_queue_thread.start()
         
         threading.Thread(target=self.monitorer_name, args=(subsystem1.ready_queues[0], "set_ready_queue_subsys1_1")).start()
         threading.Thread(target=self.monitorer_name, args=(subsystem1.ready_queues[1], "set_ready_queue_subsys1_2")).start()
@@ -166,9 +168,23 @@ class Monitorer(QObject):
 
         # threading.Barrier
         
-        time.sleep(20)
+        
+        # time.sleep(10)
+        
+        # subsystem1.ready_queues[0] = Queue()
+        # subsystem1.ready_queues[1] = Queue()
+        # subsystem1.ready_queues[2] = Queue()
+        
+        # task_ids1 = [task.task_id for task in subsystem1.ready_queues[0]]
+        # task_ids2 = [task.task_id for task in subsystem1.ready_queues[1]]
+        # task_ids3 = [task.task_id for task in subsystem1.ready_queues[2]]
 
-        subsystem1.stop()
+        
+        # print(f"here is the queue1 {task_ids1}")
+        # print(f"here is the queue2 {task_ids2}")
+        # print(f"here is the queue3 {task_ids3}")
+
+        # subsystem1.stop()
 
 
     def additional_task(self, hi):

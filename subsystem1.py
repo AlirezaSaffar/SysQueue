@@ -52,6 +52,9 @@ class Subsystem1:
             core.start()
 
     def stop(self):
+        self.ready_queues[0] = Queue()
+        self.ready_queues[1] = Queue()
+        self.ready_queues[2] = Queue()
         for core in self.cores:
             core.running = False
         for core in self.cores:
@@ -74,4 +77,4 @@ class Subsystem1:
        
         while True:
             self.check_waiting_queue()  
-            time.sleep(2)  
+            time.sleep(2)
