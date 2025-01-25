@@ -10,6 +10,7 @@ from subsystem3 import Subsystem3
 from subsystem4 import Subsystem4
 from realtimetask import Task as tt
 from ss4task import Task as t
+from logger import LoggerThread
 
 class Monitorer(QObject):
     def __init__(self):
@@ -256,7 +257,7 @@ class Monitorer(QObject):
         total_cores = 3 + 2 + 1
     
         # 5) Create one barrier for *all* scheduling threads
-        barrier = threading.Barrier(total_cores)
+        barrier = threading.Barrier(total_cores + 1) # 1 more for the logger.
 
         # 6) Pass this barrier to each subsystem (which will pass it to its cores)
         subsystem1.set_sync_barrier(barrier)
@@ -272,6 +273,10 @@ class Monitorer(QObject):
         waiting_queue_thread = threading.Thread(target=subsystem1.manage_waiting_queue)
         waiting_queue_thread.daemon = True
         waiting_queue_thread.start()
+
+        # 8. Create and start the logger thread
+        logger_thread = LoggerThread(barrier, [subsystem1, subsystem2, subsystem3])
+        logger_thread.start()
         
         ##//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
