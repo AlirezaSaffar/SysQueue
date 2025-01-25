@@ -20,12 +20,13 @@ class ProcessorCoreRateMonotonic(threading.Thread):
             else:  
                 self.execute_task()
 
-            self.subsystem.process_waiting_queue() 
+            #self.subsystem.process_waiting_queue() 
             time.sleep(1)  
 
     def fetch_task(self):
         if not self.subsystem.ready_queue.empty():
-            _, task = self.subsystem.ready_queue.get()
+            _,_, task = self.subsystem.ready_queue.get()
+            self.subsystem.allocate_resources(task)
             self.current_task = task
             print(f"Core: Started Task {task.task_id} with period {task.period}")
 
