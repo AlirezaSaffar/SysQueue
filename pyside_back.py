@@ -123,7 +123,7 @@ class Monitorer(QObject):
         # print(f"[PYSIDE MONITOR] {queue_to_check.queue}")
         previous_state = list(queue_to_check.queue)  # Get the initial state
         while True:
-            time.sleep(0.5)
+            time.sleep(0.01)
             current_state = list(queue_to_check.queue)  # Current snapshot of the queue
             # print(f"\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\current state is: {current_state}")
             if previous_state != current_state:                
@@ -141,48 +141,85 @@ class Monitorer(QObject):
 
                 previous_state = current_state
                 
+    # def monitorer_tuple(self, queue_to_check, setter_name):
+    # # Extract the initial state of the PriorityQueue
+    #     # print(f"\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\[MONITOR TUPLE] is called for the {queue_to_check} for {setter_name}")
+    #     previous_state = list(queue_to_check.queue)  # Internal access for PriorityQueue
+    #     while True:
+    #         time.sleep(0.1)
+    #         # Get the current snapshot of the PriorityQueue
+    #         current_state = list(queue_to_check.queue)  # Access elements in priority order
+
+    #         if previous_state != current_state:
+    #             # Extract task IDs from the current state
+    #             task_ids = [task[1].task_id for task in current_state]  # task[1] holds the actual task object
+    #             # Call the appropriate setter function
+    #             if setter_name == "set_ready_queue_subsys2":
+    #                 self.set_ready_queue_subsys2(task_ids)
+    #             elif setter_name == "set_ready_queue_subsys3":
+    #                 self.set_ready_queue_subsys3(task_ids)
+
+    #             # Update the previous state
+    #             previous_state = current_state
+    
     def monitorer_tuple(self, queue_to_check, setter_name):
-    # Extract the initial state of the PriorityQueue
-        # print(f"\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\[MONITOR TUPLE] is called for the {queue_to_check} for {setter_name}")
-        previous_state = list(queue_to_check.queue)  # Internal access for PriorityQueue
+        """
+        Monitors a PriorityQueue (queue_to_check). If its contents change,
+        extracts the task_ids from each entry and calls an appropriate setter function.
+        This version can handle both (priority, task) and (priority, extra_value, task).
+        """
+        previous_state = list(queue_to_check.queue)  # Internal snapshot of the queue
+
         while True:
-            time.sleep(0.1)
-            # Get the current snapshot of the PriorityQueue
-            current_state = list(queue_to_check.queue)  # Access elements in priority order
+            time.sleep(0.01)  
+            current_state = list(queue_to_check.queue)  # Current snapshot of the queue
 
             if previous_state != current_state:
-                # Extract task IDs from the current state
-                task_ids = [task[1].task_id for task in current_state]  # task[1] holds the actual task object
+                # Extract task IDs from each entry
+                task_ids = []
+                for item in current_state:
+                    # If it's a 2-tuple: (priority, task)
+                    if len(item) == 2:
+                        # item[1] is the task object
+                        task_ids.append(item[1].task_id)
+                    # If it's a 3-tuple: (priority, something, task)
+                    elif len(item) == 3:
+                        # item[2] is the task object
+                        task_ids.append(item[2].task_id)
+                    else:
+                        # Handle other formats or log an error
+                        print(f"Unexpected tuple format in queue: {item}")
+
                 # Call the appropriate setter function
                 if setter_name == "set_ready_queue_subsys2":
                     self.set_ready_queue_subsys2(task_ids)
                 elif setter_name == "set_ready_queue_subsys3":
                     self.set_ready_queue_subsys3(task_ids)
-
-                # Update the previous state
+                
                 previous_state = current_state
+
                 
                 
-    def monitorer_tuple3(self, queue_to_check, setter_name):
-    # Extract the initial state of the PriorityQueue
-        # print(f"\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\[MONITOR TUPLE] is called for the {queue_to_check} for {setter_name}")
-        previous_state = list(queue_to_check.queue)  # Internal access for PriorityQueue
-        while True:
-            time.sleep(0.1)
-            # Get the current snapshot of the PriorityQueue
-            current_state = list(queue_to_check.queue)  # Access elements in priority order
+    # def monitorer_tuple3(self, queue_to_check, setter_name):
+    # # Extract the initial state of the PriorityQueue
+    #     # print(f"\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\[MONITOR TUPLE] is called for the {queue_to_check} for {setter_name}")
+    #     previous_state = list(queue_to_check.queue)  # Internal access for PriorityQueue
+    #     while True:
+    #         time.sleep(0.1)
+    #         # Get the current snapshot of the PriorityQueue
+    #         current_state = list(queue_to_check.queue)  # Access elements in priority order
 
-            if previous_state != current_state:
-                # Extract task IDs from the current state
-                task_ids = [task[2].task_id for task in current_state]  # task[1] holds the actual task object
-                # Call the appropriate setter function
-                if setter_name == "set_ready_queue_subsys2":
-                    self.set_ready_queue_subsys2(task_ids)
-                elif setter_name == "set_ready_queue_subsys3":
-                    self.set_ready_queue_subsys3(task_ids)
+    #         if previous_state != current_state:
+    #             # Extract task IDs from the current state
+    #             task_ids = [task[2].task_id for task in current_state]  # task[1] holds the actual task object
+    #             # Call the appropriate setter function
+    #             if setter_name == "set_ready_queue_subsys2":
+    #                 self.set_ready_queue_subsys2(task_ids)
+    #             elif setter_name == "set_ready_queue_subsys3":
+    #                 self.set_ready_queue_subsys3(task_ids)
 
-                # Update the previous state
-                previous_state = current_state
+    #             # Update the previous state
+    #             previous_state = current_state
                 
                 
 
@@ -204,7 +241,6 @@ class Monitorer(QObject):
         subsystem1 = Subsystem1(r1_count=5, r2_count=3, time_slice=2)
         subsystem2 = Subsystem2(r1_count=5, r2_count=3)
         subsystem3 = Subsystem3(r1_count=5, r2_count=3, subsystem1 = subsystem1, subsystem2 = subsystem2)
-        
         
         task1 = Task(task_id=1, execution_time=10, weight=2, required_r1=1, required_r2=1)
         task2 = Task(task_id=2, execution_time=8, weight=3, required_r1=1, required_r2=2)
@@ -284,7 +320,7 @@ class Monitorer(QObject):
         threading.Thread(target=self.monitorer_name, args=(subsystem1.ready_queues[1], "set_ready_queue_subsys1_2")).start()
         threading.Thread(target=self.monitorer_name, args=(subsystem1.ready_queues[2], "set_ready_queue_subsys1_3")).start()
         threading.Thread(target=self.monitorer_tuple, args=(subsystem2.ready_queue, "set_ready_queue_subsys2")).start()
-        threading.Thread(target=self.monitorer_tuple3, args=(subsystem3.ready_queue, "set_ready_queue_subsys3")).start() 
+        threading.Thread(target=self.monitorer_tuple, args=(subsystem3.ready_queue, "set_ready_queue_subsys3")).start() 
         
         
         time.sleep(25)

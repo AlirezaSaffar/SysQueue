@@ -35,6 +35,7 @@ class ProcessorCore(threading.Thread):
             if not self.ready_queue.empty():
                 task = self.ready_queue.get()
                 self.running_task = task # added newly...
+                
                 # task_ids = [task.task_id for task in list(self.ready_queue.queue)]
                 # print(f"[CORE1] updated after get: {task_ids}, for core id: {self.core_id}")
                 
@@ -42,6 +43,9 @@ class ProcessorCore(threading.Thread):
                     # print(f"Core {self.core_id}: Executing Task {task.task_id}")
                     weighted_time_slice = self.time_slice * task.weight  
                     time_units = 0
+                    
+                    self.subsystem.allocate_resources(task) ##############################################################################
+                    
                     while time_units < weighted_time_slice and task.remaining_time > 0:
                         task.execute(1)
                         time_units += 1
@@ -54,7 +58,7 @@ class ProcessorCore(threading.Thread):
                         pass
                         # self.ready_queue.get()
                     
-                    self.subsystem.release_resources(task) 
+                    self.subsystem.release_resources(task) ### used to be 60 
                 else:
                     
                     # print(f"Task {task.task_id} moved to Waiting Queue due to insufficient resources")
