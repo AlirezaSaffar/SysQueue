@@ -49,4 +49,5 @@ class ProcessorCore(threading.Thread):
                     self.subsystem.add_to_waiting_queue(task)  
 
             else:
-                time.sleep(1)
+                # time.sleep(1)
+                pass

@@ -231,7 +231,7 @@ ApplicationWindow {
                             anchors.margins: 10
 
                             Repeater {
-                                model: monitor_pyside.set_ready_queue_subsys2
+                                model: monitor_pyside.back_end_ready_queue_subsys2
                                 Rectangle {
                                     width: 70
                                     height: 50
@@ -290,7 +290,7 @@ ApplicationWindow {
                             anchors.margins: 10
 
                             Repeater {
-                                model: monitor_pyside.set_ready_queue_subsys3
+                                model: monitor_pyside.back_end_ready_queue_subsys3
                                 Rectangle {
                                     width: 70
                                     height: 50
