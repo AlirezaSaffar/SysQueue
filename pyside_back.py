@@ -22,61 +22,61 @@ class Monitorer(QObject):
     #########################################################################
     # setter and getter for subsys1 queue 1:#################################
     def get_ready_queue_subsys1_1(self):
-        print(f"get is being called!,{self.ready_queue_subsys1_1}")
+        # print(f"get is being called!,{self.ready_queue_subsys1_1}")
         return self.ready_queue_subsys1_1
     
     def set_ready_queue_subsys1_1(self, value):
         self.ready_queue_subsys1_1 = value
         self.ready_queue_subsys1_1_changed.emit()
-        print(f"set is being called! , {value}")
+        # print(f"set is being called! , {value}")
     #########################################################################
         
     #########################################################################
     # setter and getter for subsys1 queue 2:#################################
     def get_ready_queue_subsys1_2(self):
-        print(f"get is being called!,{self.ready_queue_subsys1_1}")
+        # print(f"get is being called!,{self.ready_queue_subsys1_2}")
         return self.ready_queue_subsys1_2
     
     def set_ready_queue_subsys1_2(self, value):
         self.ready_queue_subsys1_2 = value
         self.ready_queue_subsys1_2_changed.emit()
-        print(f"set is being called! , {value}")
+        # print(f"set is being called! , {value}")
     #########################################################################
     
     #########################################################################
     # setter and getter for subsys1 queue 3:#################################
     def get_ready_queue_subsys1_3(self):
-        print(f"get is being called!,{self.ready_queue_subsys1_1}")
+        # print(f"get is being called!,{self.ready_queue_subsys1_3}")
         return self.ready_queue_subsys1_3
     
     def set_ready_queue_subsys1_3(self, value):
         self.ready_queue_subsys1_3 = value
         self.ready_queue_subsys1_3_changed.emit()
-        print(f"set is being called! , {value}")
+        # print(f"set is being called! , {value}")
     #########################################################################
     
     #########################################################################
     # setter and getter for subsys2:#########################################
     def get_ready_queue_subsys2(self):
-        print(f"get is being called!,{self.ready_queue_subsys1_1}")
+        # print(f"get is being called!,{self.ready_queue_subsys2}")
         return self.ready_queue_subsys2
     
     def set_ready_queue_subsys2(self, value):
         self.ready_queue_subsys2 = value
         self.ready_queue_subsys2_changed.emit()
-        print(f"set is being called! , {value}")
+        # print(f"set is being called! , {value}")
     #########################################################################
     
     #########################################################################
     # setter and getter for subsys3:#########################################
     def get_ready_queue_subsys3(self):
-        print(f"get is being called!,{self.ready_queue_subsys1_1}")
+        # print(f"get is being called!,{self.ready_queue_subsys3}")
         return self.ready_queue_subsys3
     
     def set_ready_queue_subsys3(self, value):
         self.ready_queue_subsys3 = value
         self.ready_queue_subsys3_changed.emit()
-        print(f"set is being called! , {value}")
+        # print(f"set is being called! , {value}")
     #########################################################################
 
     ready_queue_subsys1_1_changed = Signal()

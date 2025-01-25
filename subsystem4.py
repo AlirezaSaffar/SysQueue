@@ -73,4 +73,3 @@ class Subsystem4:
         self.core1.join()
         self.core2.join()
 
-

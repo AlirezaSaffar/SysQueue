@@ -9,9 +9,19 @@ class ProcessorCoreSRJF(threading.Thread):
         self.subsystem = subsystem
         self.running = True
         self.current_task = None
+        self.taskss4=False
+        self.tasksubnet3=None
 
     def run(self):
         while self.running:
+            if self.taskss4 is True:
+                print(f"Core {self.core_id}: Executing Task {self.tasksubnet3.task_id}")
+                self.tasksubnet3.execute(1)
+                if self.tasksubnet3.remaining_time is 0:
+                    self.taskss4=False
+                    self.tasksubnet3=None
+                continue
+            
             if not self.current_task:
                 
                 self.fetch_task()

@@ -1,4 +1,3 @@
-
 import threading
 import time
 from queue import Queue
@@ -10,11 +9,22 @@ class ProcessorCore(threading.Thread):
         self.subsystem = subsystem
         self.time_slice = time_slice 
         self.running = True
+        self.taskss4=False
+        self.tasksubnet3=None
 
     def run(self):
         while self.running:
+            if self.taskss4 is True:
+                print(f"Core {self.core_id}: Executing Task {self.tasksubnet3.task_id}")
+                self.tasksubnet3.execute(1)
+                if self.tasksubnet3.remaining_time is 0:
+                    self.taskss4=False
+                    self.tasksubnet3=None
+                continue
+                
             if not self.ready_queue.empty():
                 task = self.ready_queue.get()
+                
 
               
                 if self.subsystem.check_resources(task):
