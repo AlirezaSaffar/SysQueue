@@ -11,6 +11,11 @@ class ProcessorCoreSRJF(threading.Thread):
         self.current_task = None
         self.taskss4=False
         self.tasksubnet3=None
+        
+        self.sync_barrier = None
+        
+    def set_sync_barrier(self, barrier):
+        self.sync_barrier = barrier
 
     def run(self):
         while self.running:
@@ -34,7 +39,12 @@ class ProcessorCoreSRJF(threading.Thread):
                
                 self.execute_task()
 
-            time.sleep(1)  
+            # time.sleep(1) 
+            if self.sync_barrier is not None:
+                    try:
+                        self.sync_barrier.wait()
+                    except threading.BrokenBarrierError:
+                        break
 
     def fetch_task(self):
         if not self.subsystem.ready_queue.empty():

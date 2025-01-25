@@ -11,6 +11,11 @@ class ProcessorCore(threading.Thread):
         self.running = True
         self.taskss4=False
         self.tasksubnet3=None
+        
+        self.sync_barrier = None
+        
+    def set_sync_barrier(self, barrier):
+        self.sync_barrier = barrier
 
     def run(self):
         while self.running:
@@ -51,3 +56,9 @@ class ProcessorCore(threading.Thread):
             else:
                 # time.sleep(1)
                 pass
+            
+            if self.sync_barrier is not None:
+                try:
+                    self.sync_barrier.wait()
+                except threading.BrokenBarrierError:
+                    break

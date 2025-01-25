@@ -12,6 +12,11 @@ class ProcessorCoreFCFS(threading.Thread):
         self.subsystem = subsystem
         self.running = True
         self.current_task = None
+        
+        self.sync_barrier = None
+
+    def set_sync_barrier(self, barrier):
+        self.sync_barrier = barrier
 
     def run(self):
         while self.running:
@@ -25,7 +30,12 @@ class ProcessorCoreFCFS(threading.Thread):
                 self.execute_task() 
 
             self.subsystem.process_waiting_queue() 
-            time.sleep(1) 
+            # time.sleep(1) 
+            if self.sync_barrier is not None:
+                try:
+                    self.sync_barrier.wait()
+                except threading.BrokenBarrierError:
+                    break
 
     def fetch_task(self):
         if not self.subsystem.ready_queue.empty():
