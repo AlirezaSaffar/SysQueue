@@ -66,7 +66,7 @@ class Subsystem1:
             task = self.waiting_queue.queue[0]  
             if self.check_resources(task):  
                 print(f"Task {task.task_id} moved from Waiting Queue to Ready Queue")
-                self.waiting_queue.get() 
+                self.waiting_queue.get()
                 core_id = self.num % 3
                 self.ready_queues[core_id].put(task) 
                 task.state = "Ready" 
