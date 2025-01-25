@@ -23,7 +23,7 @@ class Subsystem3:
            
             self.tasks.append(task)
             check=self.check_schedulability()
-            print(check)
+            # print(check)
             if check is False:
                 if self.num%5 < 3:
                     self.sub1.cores[self.num%5].taskss4=True

@@ -14,16 +14,16 @@ class Task:
     def execute(self, time_unit):
         if self.remaining_time > 0:
             self.remaining_time -= time_unit
-            print(f"Task {self.task_id}: Remaining time = {self.remaining_time}")
+            # print(f"Task {self.task_id}: Remaining time = {self.remaining_time}")
             if self.remaining_time <= 0:
               
                 if random.random() <= 0.3:
                     self.state = "Error"
                     self.retry_count += 1
-                    print(f"Task {self.task_id}: Error occurred! Retrying...")
+                    # print(f"Task {self.task_id}: Error occurred! Retrying...")
                 else:
                     self.state = "Completed"
-                    print(f"Task {self.task_id}: Completed successfully.")
+                    # print(f"Task {self.task_id}: Completed successfully.")
             return self.remaining_time
         else:
             return 0

@@ -284,7 +284,16 @@ class Monitorer(QObject):
         threading.Thread(target=self.monitorer_name, args=(subsystem1.ready_queues[1], "set_ready_queue_subsys1_2")).start()
         threading.Thread(target=self.monitorer_name, args=(subsystem1.ready_queues[2], "set_ready_queue_subsys1_3")).start()
         threading.Thread(target=self.monitorer_tuple, args=(subsystem2.ready_queue, "set_ready_queue_subsys2")).start()
-        threading.Thread(target=self.monitorer_tuple3, args=(subsystem3.ready_queue, "set_ready_queue_subsys3")).start()            
+        threading.Thread(target=self.monitorer_tuple3, args=(subsystem3.ready_queue, "set_ready_queue_subsys3")).start() 
+        
+        
+        time.sleep(25)
+        subsystem1.stop()
+        subsystem2.stop()
+        subsystem3.stop()
+                   
+
+
 
     def collect_input(self):
         subsystem_tasks = [[] for _ in range(4)]  # Create a list to store tasks for each subsystem

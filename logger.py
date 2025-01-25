@@ -90,8 +90,19 @@ class LoggerThread(threading.Thread):
         # fallback
         return None
 
+    # def inspect_priority_queue(self, pq):
+    #     """Return a list of task_ids in the priority queue without popping them."""
+    #     with pq.mutex:
+    #         # pq.queue is a list of (priority, Task) or (remaining_time, Task)
+    #         return [item[2].task_id for item in pq.queue]
     def inspect_priority_queue(self, pq):
-        """Return a list of task_ids in the priority queue without popping them."""
-        with pq.mutex:
-            # pq.queue is a list of (priority, Task) or (remaining_time, Task)
-            return [item[1].task_id for item in pq.queue]
+        results = []
+        for item in pq.queue:
+            # item could be 2-tuple or 3-tuple
+            if len(item) == 2:
+                # (priority, task) form
+                results.append(item[1].task_id)
+            elif len(item) == 3:
+                # (priority, some_int, task) form
+                results.append(item[2].task_id)
+        return results

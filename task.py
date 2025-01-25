@@ -11,7 +11,7 @@ class Task:
     def execute(self, time_unit):
         if self.remaining_time > 0:
             self.remaining_time -= time_unit
-            print(f"Task {self.task_id}: Remaining time = {self.remaining_time}")
+            # print(f"Task {self.task_id}: Remaining time = {self.remaining_time}")
             if self.remaining_time <= 0:
                 self.state = "Completed"
             return self.remaining_time

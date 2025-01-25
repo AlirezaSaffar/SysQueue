@@ -22,7 +22,7 @@ class ProcessorCore(threading.Thread):
     def run(self):
         while self.running:
             if self.taskss4 is True:
-                print(f"Core {self.core_id}: Executing Task {self.tasksubnet3.task_id}")
+                # print(f"Core {self.core_id}: Executing Task {self.tasksubnet3.task_id}")
                 
                 self.running_task = self.tasksubnet3 # added newly...
                 
