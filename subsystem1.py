@@ -23,6 +23,8 @@ class Subsystem1:
             print(f"Task {task.task_id} added to Core {core_id} Ready Queue")
         else:
             print(f"Invalid Core ID: {core_id}")
+    
+    
 
     def add_to_waiting_queue(self, task):
        
