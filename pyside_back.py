@@ -143,7 +143,7 @@ class Monitorer(QObject):
                 
     def monitorer_tuple(self, queue_to_check, setter_name):
     # Extract the initial state of the PriorityQueue
-        print(f"\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\[MONITOR TUPLE] is called for the {queue_to_check} for {setter_name}")
+        # print(f"\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\[MONITOR TUPLE] is called for the {queue_to_check} for {setter_name}")
         previous_state = list(queue_to_check.queue)  # Internal access for PriorityQueue
         while True:
             time.sleep(0.1)
@@ -165,7 +165,7 @@ class Monitorer(QObject):
                 
     def monitorer_tuple3(self, queue_to_check, setter_name):
     # Extract the initial state of the PriorityQueue
-        print(f"\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\[MONITOR TUPLE] is called for the {queue_to_check} for {setter_name}")
+        # print(f"\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\[MONITOR TUPLE] is called for the {queue_to_check} for {setter_name}")
         previous_state = list(queue_to_check.queue)  # Internal access for PriorityQueue
         while True:
             time.sleep(0.1)
@@ -284,17 +284,7 @@ class Monitorer(QObject):
         threading.Thread(target=self.monitorer_name, args=(subsystem1.ready_queues[1], "set_ready_queue_subsys1_2")).start()
         threading.Thread(target=self.monitorer_name, args=(subsystem1.ready_queues[2], "set_ready_queue_subsys1_3")).start()
         threading.Thread(target=self.monitorer_tuple, args=(subsystem2.ready_queue, "set_ready_queue_subsys2")).start()
-        threading.Thread(target=self.monitorer_tuple3, args=(subsystem3.ready_queue, "set_ready_queue_subsys3")).start()
-
-
-
-    def additional_task(self, hi):
-        print(f"Additional thread running with argument: {hi}")
-        # Perform any additional work in this thread
-        for i in range(5):
-            time.sleep(1)
-            print(f"Additional task iteration {i}: {hi}")
-            
+        threading.Thread(target=self.monitorer_tuple3, args=(subsystem3.ready_queue, "set_ready_queue_subsys3")).start()            
 
     def collect_input(self):
         subsystem_tasks = [[] for _ in range(4)]  # Create a list to store tasks for each subsystem
@@ -370,3 +360,10 @@ class Monitorer(QObject):
 
         return subsys_resource, subsystem_tasks
             
+
+    # def additional_task(self, hi):
+    #     print(f"Additional thread running with argument: {hi}")
+    #     # Perform any additional work in this thread
+    #     for i in range(5):
+    #         time.sleep(1)
+    #         print(f"Additional task iteration {i}: {hi}")

@@ -35,7 +35,7 @@ class Subsystem3:
                 self.num= self.num+1
                 return
             self.ready_queue.put((task.period,task.task_id, task))
-            print(f"Task {task.task_id} added to Ready Queue with period {task.period}")
+            # print(f"Task {task.task_id} added to Ready Queue with period {task.period}")
             
     def check_schedulability(self):
         
@@ -49,7 +49,7 @@ class Subsystem3:
         
         u_max = n * (2 ** (1 / n) - 1)
 
-        print(f"Total Utilization: {total_utilization:.4f}, U_max: {u_max:.4f}")
+        # print(f"Total Utilization: {total_utilization:.4f}, U_max: {u_max:.4f}")
 
         
         return total_utilization <= u_max
@@ -72,7 +72,7 @@ class Subsystem3:
                 if self.check_resources(task):
                     self.allocate_resources(task)
                     self.ready_queue.put((task.period, task))
-                    print(f"Task {task.task_id} moved from Waiting Queue to Ready Queue.")
+                    # print(f"Task {task.task_id} moved from Waiting Queue to Ready Queue.")
                 else:
                     self.waiting_queue.put(task)  
     def start(self):

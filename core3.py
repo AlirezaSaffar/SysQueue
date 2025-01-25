@@ -21,7 +21,7 @@ class ProcessorCoreRateMonotonic(threading.Thread):
                 self.fetch_task() 
             elif self.current_task.state == "Completed":  
                 self.subsystem.release_resources(self.current_task)  
-                print(f"Task {self.current_task.task_id} completed and resources released.")
+                # print(f"Task {self.current_task.task_id} completed and resources released.")
                 self.current_task = None
             else:  
                 self.execute_task()
@@ -41,7 +41,7 @@ class ProcessorCoreRateMonotonic(threading.Thread):
             self.current_task = task
             self.running_task = task
             
-            print(f"Core: Started Task {task.task_id} with period {task.period}")
+            # print(f"Core: Started Task {task.task_id} with period {task.period}")
 
     def execute_task(self):
         if self.current_task:

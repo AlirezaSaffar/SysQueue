@@ -42,19 +42,19 @@ class ProcessorCoreFCFS(threading.Thread):
         if not self.subsystem.ready_queue.empty():
             self.current_task = self.subsystem.ready_queue.get()
             self.running_task = self.current_task
-            print(f"Core {self.core_id}: Started Task {self.current_task.task_id}.")
+            # print(f"Core {self.core_id}: Started Task {self.current_task.task_id}.")
 
     def execute_task(self):
         if self.current_task:
             self.current_task.execute(1)  
 
     def retry_task(self):
-        print(f"Core {self.core_id}: Retrying Task {self.current_task.task_id}.")
+        # print(f"Core {self.core_id}: Retrying Task {self.current_task.task_id}.")
         self.current_task.remaining_time = self.current_task.execution_time 
         self.current_task.state = "Ready"  
 
     def complete_task(self):
-        print(f"Core {self.core_id}: Task {self.current_task.task_id} completed.")
+        # print(f"Core {self.core_id}: Task {self.current_task.task_id} completed.")
         self.subsystem.release_resources(self.current_task) 
         self.subsystem.completed_tasks.add(self.current_task.task_id) 
         self.current_task = None  

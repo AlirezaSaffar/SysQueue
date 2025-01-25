@@ -20,16 +20,17 @@ class Subsystem1:
         
         if 0 <= core_id < len(self.ready_queues):
             self.ready_queues[core_id].put(task)
-            print(f"Task {task.task_id} added to Core {core_id} Ready Queue")
+            # print(f"Task {task.task_id} added to Core {core_id} Ready Queue")
         else:
-            print(f"Invalid Core ID: {core_id}")
+            # print(f"Invalid Core ID: {core_id}")
+            pass
     
     
 
     def add_to_waiting_queue(self, task):
        
         self.waiting_queue.put(task)
-        print(f"Task {task.task_id} added to Waiting Queue")
+        # print(f"Task {task.task_id} added to Waiting Queue")
 
     def check_resources(self, task):
        
@@ -65,7 +66,7 @@ class Subsystem1:
         while not self.waiting_queue.empty():
             task = self.waiting_queue.queue[0]  
             if self.check_resources(task):  
-                print(f"Task {task.task_id} moved from Waiting Queue to Ready Queue")
+                # print(f"Task {task.task_id} moved from Waiting Queue to Ready Queue")
                 self.waiting_queue.get()
                 core_id = self.num % 3
                 self.ready_queues[core_id].put(task) 

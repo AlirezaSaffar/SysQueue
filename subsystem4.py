@@ -24,13 +24,13 @@ class Subsystem4:
                 if self.check_resources(task): 
                     self.allocate_resources(task)
                     self.ready_queue.put(task)  
-                    print(f"Task {task.task_id} added to Ready Queue.")
+                    # print(f"Task {task.task_id} added to Ready Queue.")
                 else:
                     self.waiting_queue.put(task) 
-                    print(f"Task {task.task_id} added to Waiting Queue due to insufficient resources.")
+                    # print(f"Task {task.task_id} added to Waiting Queue due to insufficient resources.")
             else:
                 self.waiting_queue.put(task) 
-                print(f"Task {task.task_id} added to Waiting Queue due to unmet dependencies.")
+                # print(f"Task {task.task_id} added to Waiting Queue due to unmet dependencies.")
 
     def check_resources(self, task):
        
@@ -40,13 +40,13 @@ class Subsystem4:
         
         self.r1 -= task.required_r1
         self.r2 -= task.required_r2
-        print(f"Resources allocated for Task {task.task_id}: R1={task.required_r1}, R2={task.required_r2}")
+        # print(f"Resources allocated for Task {task.task_id}: R1={task.required_r1}, R2={task.required_r2}")
 
     def release_resources(self, task):
         
         self.r1 += task.required_r1
         self.r2 += task.required_r2
-        print(f"Resources released for Task {task.task_id}: R1={task.required_r1}, R2={task.required_r2}")
+        # print(f"Resources released for Task {task.task_id}: R1={task.required_r1}, R2={task.required_r2}")
 
     def process_waiting_queue(self):
         
@@ -56,7 +56,7 @@ class Subsystem4:
                 if all(dep in self.completed_tasks for dep in task.dependencies) and self.check_resources(task):
                     self.allocate_resources(task)
                     self.ready_queue.put(task)
-                    print(f"Task {task.task_id} moved from Waiting Queue to Ready Queue.")
+                    # print(f"Task {task.task_id} moved from Waiting Queue to Ready Queue.")
                 else:
                     self.waiting_queue.put(task)  
 

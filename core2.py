@@ -21,7 +21,7 @@ class ProcessorCoreSRJF(threading.Thread):
     def run(self):
         while self.running:
             if self.taskss4 is True and self.tasksubnet3 is not None:
-                print(f"Core {self.core_id}: Executing Task {self.tasksubnet3.task_id}")
+                # print(f"Core {self.core_id}: Executing Task {self.tasksubnet3.task_id}")
                 self.running_task = self.tasksubnet3 # added newly...
                 self.tasksubnet3.execute(1)
                 if self.tasksubnet3.remaining_time is 0:
@@ -35,7 +35,7 @@ class ProcessorCoreSRJF(threading.Thread):
             elif self.current_task.state == "Completed":
                
                 self.subsystem.release_resources(self.current_task)
-                print(f"Core {self.core_id}: Task {self.current_task.task_id} completed.")
+                # print(f"Core {self.core_id}: Task {self.current_task.task_id} completed.")
                 self.current_task = None
             else:
                 self.execute_task()
@@ -55,7 +55,7 @@ class ProcessorCoreSRJF(threading.Thread):
                
                 self.subsystem.allocate_resources(task)
                 self.current_task = task
-                print(f"Core {self.core_id}: Started Task {task.task_id} with remaining time {task.remaining_time}")
+                # print(f"Core {self.core_id}: Started Task {task.task_id} with remaining time {task.remaining_time}")
             else:
                
                 self.subsystem.partial_allocate_resources(task)
@@ -70,7 +70,7 @@ class ProcessorCoreSRJF(threading.Thread):
         if not self.subsystem.ready_queue.empty():
             next_task_time, next_task = self.subsystem.ready_queue.queue[0]  
             if self.current_task and next_task_time < self.current_task.remaining_time:
-                print(f"Core {self.core_id}: Preempting Task {self.current_task.task_id} for Task {next_task.task_id}")
+                # print(f"Core {self.core_id}: Preempting Task {self.current_task.task_id} for Task {next_task.task_id}")
                 self.subsystem.ready_queue.put((self.current_task.remaining_time, self.current_task)) 
                 self.subsystem.release_resources(self.current_task)
                 self.current_task = None

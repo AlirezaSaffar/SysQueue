@@ -17,10 +17,10 @@ class Subsystem2:
         self.maximum[task.task_id] = [task.required_r1, task.required_r2]
         self.allocation[task.task_id] = [0, 0]  
         if self.banker_algorithm(task) is False:
-            print("reject")
+            # print("reject")
             return
         self.ready_queue.put((task.remaining_time, task))
-        print(f"Task {task.task_id} added to Ready Queue with remaining time {task.remaining_time}")
+        # print(f"Task {task.task_id} added to Ready Queue with remaining time {task.remaining_time}")
         self.preempt_check()
 
     def check_resources(self, task):
@@ -48,7 +48,7 @@ class Subsystem2:
             self.r2 -= allocated_r2
             task.required_r1 -= allocated_r1
             task.required_r2 -= allocated_r2
-            print(f"Task {task.task_id} partially allocated: R1={allocated_r1}, R2={allocated_r2}")
+            # print(f"Task {task.task_id} partially allocated: R1={allocated_r1}, R2={allocated_r2}")
 
     def preempt_check(self):
         
