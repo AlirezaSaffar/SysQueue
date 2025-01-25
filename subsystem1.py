@@ -77,4 +77,9 @@ class Subsystem1:
        
         while True:
             self.check_waiting_queue()  
-            time.sleep(2)
+            # time.sleep(2)
+            
+    def set_sync_barrier(self, barrier):
+        for core in self.cores:
+            if hasattr(core, 'set_sync_barrier'):
+                core.set_sync_barrier(barrier)

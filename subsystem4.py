@@ -72,4 +72,9 @@ class Subsystem4:
         self.core2.running = False
         self.core1.join()
         self.core2.join()
+    
+    def set_sync_barrier(self, barrier):
+        for core in self.cores:
+            if hasattr(core, 'set_sync_barrier'):
+                core.set_sync_barrier(barrier)
 

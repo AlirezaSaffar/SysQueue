@@ -83,3 +83,7 @@ class Subsystem3:
         self.running = False
         self.core.running = False
         self.core.join()
+        
+    def set_sync_barrier(self, barrier):
+        if hasattr(self.core, 'set_sync_barrier'):
+            self.core.set_sync_barrier(barrier)

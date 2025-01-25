@@ -112,5 +112,10 @@ class Subsystem2:
                 self.allocation[task.task_id][0] -= need[0]
                 self.allocation[task.task_id][1] -= need[1]
                 return False
+            
+    def set_sync_barrier(self, barrier):
+        for core in self.cores:
+            if hasattr(core, 'set_sync_barrier'):
+                core.set_sync_barrier(barrier)
 
 

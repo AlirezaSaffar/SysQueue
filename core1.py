@@ -39,7 +39,7 @@ class ProcessorCore(threading.Thread):
                     while time_units < weighted_time_slice and task.remaining_time > 0:
                         task.execute(1)
                         time_units += 1
-                        time.sleep(1)
+                        # time.sleep(1)
                     
                     if task.remaining_time > 0:
                         self.ready_queue.put(task)
