@@ -5,7 +5,7 @@ from core3 import ProcessorCoreRateMonotonic
 from subsystem1 import Subsystem1
 from subsystem2 import Subsystem2
 class Subsystem3:
-    def __init__(self, r1_count, r2_count,subsystem1:Subsystem1,subsystem2:Subsystem2):
+    def __init__(self, r1_count, r2_count, subsystem1:Subsystem1, subsystem2:Subsystem2):
         self.r1 = r1_count  
         self.r2 = r2_count  
         self.ready_queue = PriorityQueue()  
@@ -26,11 +26,11 @@ class Subsystem3:
             print(check)
             if check is False:
                 if self.num%5 < 3:
-                    self.sub1.cores[self.num%3].taskss4=True
-                    self.sub1.cores[self.num%3].tasksubnet3=task
+                    self.sub1.cores[self.num%5].taskss4=True
+                    self.sub1.cores[self.num%5].tasksubnet3=task
                 if self.num%5 >2 :
-                    self.sub2.cores[self.num-3].taskss4=True
-                    self.sub1.cores[self.num%3].tasksubnet3=task
+                    self.sub2.cores[self.num % 5 - 3].taskss4=True
+                    self.sub1.cores[self.num % 5 - 3].tasksubnet3=task
                 self.tasks.remove(task)
                 self.num= self.num+1
                 return
