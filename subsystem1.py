@@ -3,7 +3,6 @@ import time
 from queue import Queue
 from task import Task
 from core1 import ProcessorCore
-
 class Subsystem1:
     def __init__(self, r1_count, r2_count, time_slice):
         self.r1 = r1_count  
@@ -68,7 +67,9 @@ class Subsystem1:
             if self.check_resources(task):  
                 # print(f"Task {task.task_id} moved from Waiting Queue to Ready Queue")
                 self.waiting_queue.get()
+                
                 core_id = self.num % 3
+                self.ready_queues[core_id].running_task= task
                 self.ready_queues[core_id].put(task) 
                 task.state = "Ready" 
             else:

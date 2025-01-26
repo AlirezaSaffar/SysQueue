@@ -11,6 +11,8 @@ from subsystem4 import Subsystem4
 from realtimetask import Task as tt
 from ss4task import Task as t_4
 from logger import LoggerThread
+from timeUnit import timeUnit
+
 
 class Monitorer(QObject):
     def __init__(self):
@@ -205,11 +207,111 @@ class Monitorer(QObject):
         #         print(task)
         ###############################################################
         
-        ##//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ##//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    # def the_main_func(self):        
+        
+    #     subsystem1 = Subsystem1(r1_count=5, r2_count=3, time_slice=2)
+    #     subsystem2 = Subsystem2(r1_count=5, r2_count=3)
+    #     subsystem3 = Subsystem3(r1_count=5, r2_count=3, subsystem1 = subsystem1, subsystem2 = subsystem2)
+    #     subsystem4 = Subsystem4(r1_count=5, r2_count=9)
+        
+    #     task1 = Task(task_id=1, execution_time=10, weight=2, required_r1=1, required_r2=1)
+    #     task2 = Task(task_id=2, execution_time=8, weight=3, required_r1=1, required_r2=2)
+    #     task3 = Task(task_id=3, execution_time=12, weight=1, required_r1=1, required_r2=2)
+    #     task4 = Task(task_id=4, execution_time=10, weight=2, required_r1=1, required_r2=1)
+    #     task5 = Task(task_id=5, execution_time=8, weight=3, required_r1=1, required_r2=2)
+    #     task6 = Task(task_id=6, execution_time=12, weight=1, required_r1=1, required_r2=2)
+    #     task7 = Task(task_id=7, execution_time=10, weight=2, required_r1=1, required_r2=1)
+    #     task8 = Task(task_id=8, execution_time=8, weight=3, required_r1=1, required_r2=2)
+    #     task9 = Task(task_id=9, execution_time=12, weight=1, required_r1=1, required_r2=2)
+        
+    #     task10 = tt(task_id=10, execution_time=2, weight=1, required_r1=4, required_r2=1, period=5)
+    #     task11 = tt(task_id=11, execution_time=2, weight=1, required_r1=1, required_r2=4, period=3)
+    #     task12 = tt(task_id=12, execution_time=2, weight=1, required_r1=1, required_r2=4, period=5)
+    #     task13 = tt(task_id=13, execution_time=2, weight=1, required_r1=4, required_r2=1, period=5)
+    #     task14 = tt(task_id=14, execution_time=2, weight=1, required_r1=1, required_r2=4, period=3)
+    #     task15 = tt(task_id=15, execution_time=2, weight=1, required_r1=1, required_r2=4, period=5)
+    #     task16 = Task(task_id=16, execution_time=8, weight=1, required_r1=1, required_r2=2)
+    #     task17 = Task(task_id=17, execution_time=5, weight=1, required_r1=1, required_r2=2)
+
+    #     task18 = t_4(task_id=18, execution_time=10, required_r1=1, required_r2=1,dependencies=[])
+    #     task19 = t_4(task_id=19, execution_time=8,  required_r1=1, required_r2=2,dependencies=[18])
+    #     task20 = t_4(task_id=20, execution_time=12,  required_r1=1, required_r2=2,dependencies=[18])
+    #     task21 = t_4(task_id=21, execution_time=12,  required_r1=1, required_r2=2,dependencies=[19,20])
+    #     subsystem4.add_task(task18)
+    #     subsystem4.add_task(task19)
+    #     subsystem4.add_task(task20)
+    #     subsystem4.add_task(task21)
+    #     subsystem1.add_task(task1)
+    #     subsystem1.add_task(task2)
+    #     subsystem1.add_task(task3)
+    #     subsystem1.add_task(task4)
+    #     subsystem1.add_task(task5)
+    #     subsystem1.add_task(task6)
+    #     subsystem1.add_task(task7)
+    #     subsystem1.add_task(task8)
+    #     subsystem1.add_task(task9)
+        
+    #     subsystem2.add_task(task16)
+    #     subsystem2.add_task(task17)
+        
+    #     subsystem3.add_task(task10)
+    #     subsystem3.add_task(task11)
+    #     subsystem3.add_task(task12)
+    #     subsystem3.add_task(task13)
+    #     subsystem3.add_task(task14)
+    #     subsystem3.add_task(task15)
+        
+    #     total_cores = 3 + 2 + 1 + 2
+    
+    #     # 5) Create one barrier for *all* scheduling threads
+    #     barrier = threading.Barrier(total_cores + 1) # 1 more for the logger.
+
+    #     # 6) Pass this barrier to each subsystem (which will pass it to its cores)
+    #     subsystem1.set_sync_barrier(barrier)
+    #     subsystem2.set_sync_barrier(barrier)
+    #     subsystem3.set_sync_barrier(barrier)
+    #     subsystem4.set_sync_barrier(barrier)
+
+    #     # 7) Start each subsystem’s cores
+    #     subsystem1.start()
+    #     subsystem2.start()
+    #     subsystem3.start()
+    #     subsystem4.start()
+
+    #     # If Subsystem1 has a separate waiting queue thread, you can start that too:
+    #     waiting_queue_thread = threading.Thread(target=subsystem1.manage_waiting_queue)
+    #     waiting_queue_thread.daemon = True
+    #     waiting_queue_thread.start()
+
+    #     # 8. Create and start the logger thread
+    #     logger_thread = LoggerThread(barrier, [subsystem1, subsystem2, subsystem3, subsystem4])
+    #     logger_thread.start()
+        
+        
+    #     ##//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    #     threading.Thread(target=self.monitorer_name, args=(subsystem1.ready_queues[0], "set_ready_queue_subsys1_1")).start()
+    #     threading.Thread(target=self.monitorer_name, args=(subsystem1.ready_queues[1], "set_ready_queue_subsys1_2")).start()
+    #     threading.Thread(target=self.monitorer_name, args=(subsystem1.ready_queues[2], "set_ready_queue_subsys1_3")).start()
+    #     threading.Thread(target=self.monitorer_tuple, args=(subsystem2.ready_queue, "set_ready_queue_subsys2")).start()
+    #     threading.Thread(target=self.monitorer_tuple, args=(subsystem3.waiting_queue, "set_ready_queue_subsys3")).start() 
+    #     threading.Thread(target=self.monitorer_name, args=(subsystem4.ready_queue, "set_ready_queue_subsys4")).start() 
+        
+        
+    #     time.sleep(25)
+    #     subsystem1.stop()
+    #     subsystem2.stop()
+    #     subsystem3.stop()
+                   
     def the_main_func(self):
+        
+        time_unit = timeUnit()
+        
         subsystem1 = Subsystem1(r1_count=5, r2_count=3, time_slice=2)
         subsystem2 = Subsystem2(r1_count=5, r2_count=3)
-        subsystem3 = Subsystem3(r1_count=5, r2_count=3, subsystem1 = subsystem1, subsystem2 = subsystem2)
+        # subsystem3 = Subsystem3(r1_count=5, r2_count=3, subsystem1 = subsystem1, subsystem2 = subsystem2)
+        subsystem3 = Subsystem3(r1_count=5, r2_count=3, subsystem1 = subsystem1, subsystem2 = subsystem2, time_unit = time_unit)
         subsystem4 = Subsystem4(r1_count=5, r2_count=9)
         
         task1 = Task(task_id=1, execution_time=10, weight=2, required_r1=1, required_r2=1)
@@ -247,7 +349,7 @@ class Monitorer(QObject):
         subsystem1.add_task(task6)
         subsystem1.add_task(task7)
         subsystem1.add_task(task8)
-        subsystem1.add_task(task9)
+        # subsystem1.add_task(task9)
         
         subsystem2.add_task(task16)
         subsystem2.add_task(task17)
@@ -258,39 +360,7 @@ class Monitorer(QObject):
         subsystem3.add_task(task13)
         subsystem3.add_task(task14)
         subsystem3.add_task(task15)
-
-        # subsystem1.start()
-        # waiting_queue_thread = threading.Thread(target=subsystem1.manage_waiting_queue)
-        # waiting_queue_thread.daemon = True
-        # waiting_queue_thread.start()
         
-        # subsystem2.start()
-        # subsystem3.start()
-        
-        # total_cores = len(subsystem1.cores) + len(subsystem2.cores) + len(subsystem3.core)
-        # total_cores = 3 + 2 + 1
-    
-        # # 5) Create one barrier for *all* scheduling threads
-        # barrier = threading.Barrier(total_cores + 1) # 1 more for the logger.
-
-        # # 6) Pass this barrier to each subsystem (which will pass it to its cores)
-        # subsystem1.set_sync_barrier(barrier)
-        # subsystem2.set_sync_barrier(barrier)
-        # subsystem3.set_sync_barrier(barrier)
-
-        # # 7) Start each subsystem’s cores
-        # subsystem1.start()
-        # subsystem2.start()
-        # subsystem3.start()
-
-        # # If Subsystem1 has a separate waiting queue thread, you can start that too:
-        # waiting_queue_thread = threading.Thread(target=subsystem1.manage_waiting_queue)
-        # waiting_queue_thread.daemon = True
-        # waiting_queue_thread.start()
-
-        # # 8. Create and start the logger thread
-        # logger_thread = LoggerThread(barrier, [subsystem1, subsystem2, subsystem3])
-        # logger_thread.start()
         
         total_cores = 3 + 2 + 1 + 2
     
@@ -318,6 +388,8 @@ class Monitorer(QObject):
         logger_thread = LoggerThread(barrier, [subsystem1, subsystem2, subsystem3, subsystem4])
         logger_thread.start()
         
+        th = threading.Thread(target=self.my_new_func, args=(subsystem1, task9, logger_thread))
+        th.start()
         
         ##//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -333,8 +405,6 @@ class Monitorer(QObject):
         subsystem1.stop()
         subsystem2.stop()
         subsystem3.stop()
-                   
-
 
 
     def collect_input(self):
@@ -418,3 +488,14 @@ class Monitorer(QObject):
     #     for i in range(5):
     #         time.sleep(1)
     #         print(f"Additional task iteration {i}: {hi}")
+    
+    # def my_new_func(self, subsys1, task, timeUnit):
+    #     while True:
+    #         if timeUnit.timee == 5:
+    #             subsys1.add_task(task)
+    #             return
+    def my_new_func(self, subsys1, task, timeUnit):
+        while True:
+            if timeUnit.current_time == 5:
+                subsys1.add_task(task)
+                return

@@ -18,3 +18,5 @@ class Task:
             return self.remaining_time
         else:
             return 0
+    def __len__(self):
+        return 0

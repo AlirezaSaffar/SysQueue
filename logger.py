@@ -77,12 +77,23 @@ class LoggerThread(threading.Thread):
                 print(f"  Core2: Running Task: {rt2 if rt2 else 'idle'}")
 
 
+    # def get_running_task_id(self, subsystem, core_index):
+    #     """For Subsystem1's array of cores."""
+    #     try:
+    #         core = subsystem.cores[core_index]
+    #         if hasattr(core, 'current_task') and core.current_task is not None:
+    #             return core.current_task.task_id
+    #         elif hasattr(core, 'tasksubnet3') and core.tasksubnet3 is not None:
+    #             return core.tasksubnet3.task_id
+    #     except IndexError:
+    #         pass
+    #     return None
     def get_running_task_id(self, subsystem, core_index):
         """For Subsystem1's array of cores."""
         try:
             core = subsystem.cores[core_index]
-            if hasattr(core, 'current_task') and core.current_task is not None:
-                return core.current_task.task_id
+            if hasattr(core, 'running_task') and core.running_task is not None:
+                return core.running_task.task_id
             elif hasattr(core, 'tasksubnet3') and core.tasksubnet3 is not None:
                 return core.tasksubnet3.task_id
         except IndexError:
