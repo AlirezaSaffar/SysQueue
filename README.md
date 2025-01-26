@@ -20,4 +20,22 @@ ok, now that the schema is known, lets go back to the project itself:
   - Rate Monotonic (Third Subsystem)
   - SCFS (the fourth)
 
- which we have implemented all of those. even the forth one. 
+which we have implemented all of those. even the forth one. 
+you would see this file format:
+
+- core_i.py
+which belongs to and specialized to the subsys_i th.
+there are also two different classes related to tasks:
+- task.py
+- ss4task.py
+- realtimetask.py
+which the task.py implements the ones for the subsys1 and subsys2. also there is ss4task for subsys4 and realtimetask for subsys3.
+
+### load balancing on the subsys1:
+as the tasks arived to the subsys1, the tasks are assigned in the format of 1, 2, 3, 1, 2, 3, and so on and that way, it is made sure that the balancing is done.
+### deadlock on subsys2:
+for that, we used the bancker algorighm, which handles the deadlock smoothly and nicly.
+### resource shiar on subsys3:
+we got a func on subsys3 named as `check_schedulability`, which is having the job of making sure if one task is feasible to be done. if not, it gets help from other subsyses. 
+### reapeated task on subsys4:
+there is a chance of 30 % of an error on a task , which we handle that agian.
