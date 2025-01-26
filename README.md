@@ -39,3 +39,8 @@ for that, we used the bancker algorighm, which handles the deadlock smoothly and
 we got a func on subsys3 named as `check_schedulability`, which is having the job of making sure if one task is feasible to be done. if not, it gets help from other subsyses. 
 ### reapeated task on subsys4:
 there is a chance of 30 % of an error on a task , which we handle that agian.
+
+
+### important note:
+as it was asked to avoid the `time.sleep()` func every where, we did so. and we used the `Threading.Barrier` func and that handles the synchronization completely. you might see a sleep on the func named: `monitorer_name` and `monitorer_tuple`, but they have nothing to do with the process of subsyses. they only act as monitorers for front-end to fetch the data every different times. 
+also that sleep at the buttom of the `the_main_func` is related to termination of the whole app, and has nothing to do with the subsyes.
