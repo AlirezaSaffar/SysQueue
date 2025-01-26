@@ -16,7 +16,7 @@ if __name__ == "__main__":
     script_dir = os.path.dirname(os.path.abspath(__file__))
     os.chdir(script_dir)
     
-    qml_file = os.path.join(script_dir, "main.qml")  
+    qml_file = os.path.join(script_dir, "main.qml")
     qmlRegisterType(Monitorer, "Pyside_handler", 1, 0, "Monitor")
     
     app = QGuiApplication(sys.argv)

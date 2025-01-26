@@ -9,7 +9,7 @@ from subsystem2 import Subsystem2
 from subsystem3 import Subsystem3
 from subsystem4 import Subsystem4
 from realtimetask import Task as tt
-from ss4task import Task as t
+from ss4task import Task as t_4
 from logger import LoggerThread
 
 class Monitorer(QObject):
@@ -99,7 +99,7 @@ class Monitorer(QObject):
     def set_ready_queue_subsys4(self, value):
         self.ready_queue_subsys4 = value
         self.ready_queue_subsys4_changed.emit()
-        # print(f"set is being called! , {value}")
+        # print(f"44444444444444444444444444444444444444444444444   set is being called! , {value} 4444444444444444444444444444444")
     #########################################################################
     
     ready_queue_subsys1_1_changed = Signal()
@@ -137,6 +137,7 @@ class Monitorer(QObject):
                 elif setter_name == "set_ready_queue_subsys1_3":
                     self.set_ready_queue_subsys1_3(task_ids)
                 elif setter_name == "set_ready_queue_subsys4":
+                    
                     self.set_ready_queue_subsys4(task_ids)
 
                 previous_state = current_state
@@ -163,11 +164,6 @@ class Monitorer(QObject):
     #             previous_state = current_state
     
     def monitorer_tuple(self, queue_to_check, setter_name):
-        """
-        Monitors a PriorityQueue (queue_to_check). If its contents change,
-        extracts the task_ids from each entry and calls an appropriate setter function.
-        This version can handle both (priority, task) and (priority, extra_value, task).
-        """
         previous_state = list(queue_to_check.queue)  # Internal snapshot of the queue
 
         while True:
@@ -195,34 +191,7 @@ class Monitorer(QObject):
                     self.set_ready_queue_subsys2(task_ids)
                 elif setter_name == "set_ready_queue_subsys3":
                     self.set_ready_queue_subsys3(task_ids)
-                
                 previous_state = current_state
-
-                
-                
-    # def monitorer_tuple3(self, queue_to_check, setter_name):
-    # # Extract the initial state of the PriorityQueue
-    #     # print(f"\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\[MONITOR TUPLE] is called for the {queue_to_check} for {setter_name}")
-    #     previous_state = list(queue_to_check.queue)  # Internal access for PriorityQueue
-    #     while True:
-    #         time.sleep(0.1)
-    #         # Get the current snapshot of the PriorityQueue
-    #         current_state = list(queue_to_check.queue)  # Access elements in priority order
-
-    #         if previous_state != current_state:
-    #             # Extract task IDs from the current state
-    #             task_ids = [task[2].task_id for task in current_state]  # task[1] holds the actual task object
-    #             # Call the appropriate setter function
-    #             if setter_name == "set_ready_queue_subsys2":
-    #                 self.set_ready_queue_subsys2(task_ids)
-    #             elif setter_name == "set_ready_queue_subsys3":
-    #                 self.set_ready_queue_subsys3(task_ids)
-
-    #             # Update the previous state
-    #             previous_state = current_state
-                
-                
-
         
         ###############################################################
         # this is for input:###########################################
@@ -241,6 +210,7 @@ class Monitorer(QObject):
         subsystem1 = Subsystem1(r1_count=5, r2_count=3, time_slice=2)
         subsystem2 = Subsystem2(r1_count=5, r2_count=3)
         subsystem3 = Subsystem3(r1_count=5, r2_count=3, subsystem1 = subsystem1, subsystem2 = subsystem2)
+        subsystem4 = Subsystem4(r1_count=5, r2_count=9)
         
         task1 = Task(task_id=1, execution_time=10, weight=2, required_r1=1, required_r2=1)
         task2 = Task(task_id=2, execution_time=8, weight=3, required_r1=1, required_r2=2)
@@ -261,6 +231,14 @@ class Monitorer(QObject):
         task16 = Task(task_id=16, execution_time=8, weight=1, required_r1=1, required_r2=2)
         task17 = Task(task_id=17, execution_time=5, weight=1, required_r1=1, required_r2=2)
 
+        task18 = t_4(task_id=18, execution_time=10, required_r1=1, required_r2=1,dependencies=[])
+        task19 = t_4(task_id=19, execution_time=8,  required_r1=1, required_r2=2,dependencies=[18])
+        task20 = t_4(task_id=20, execution_time=12,  required_r1=1, required_r2=2,dependencies=[18])
+        task21 = t_4(task_id=21, execution_time=12,  required_r1=1, required_r2=2,dependencies=[19,20])
+        subsystem4.add_task(task18)
+        subsystem4.add_task(task19)
+        subsystem4.add_task(task20)
+        subsystem4.add_task(task21)
         subsystem1.add_task(task1)
         subsystem1.add_task(task2)
         subsystem1.add_task(task3)
@@ -290,7 +268,31 @@ class Monitorer(QObject):
         # subsystem3.start()
         
         # total_cores = len(subsystem1.cores) + len(subsystem2.cores) + len(subsystem3.core)
-        total_cores = 3 + 2 + 1
+        # total_cores = 3 + 2 + 1
+    
+        # # 5) Create one barrier for *all* scheduling threads
+        # barrier = threading.Barrier(total_cores + 1) # 1 more for the logger.
+
+        # # 6) Pass this barrier to each subsystem (which will pass it to its cores)
+        # subsystem1.set_sync_barrier(barrier)
+        # subsystem2.set_sync_barrier(barrier)
+        # subsystem3.set_sync_barrier(barrier)
+
+        # # 7) Start each subsystem’s cores
+        # subsystem1.start()
+        # subsystem2.start()
+        # subsystem3.start()
+
+        # # If Subsystem1 has a separate waiting queue thread, you can start that too:
+        # waiting_queue_thread = threading.Thread(target=subsystem1.manage_waiting_queue)
+        # waiting_queue_thread.daemon = True
+        # waiting_queue_thread.start()
+
+        # # 8. Create and start the logger thread
+        # logger_thread = LoggerThread(barrier, [subsystem1, subsystem2, subsystem3])
+        # logger_thread.start()
+        
+        total_cores = 3 + 2 + 1 + 2
     
         # 5) Create one barrier for *all* scheduling threads
         barrier = threading.Barrier(total_cores + 1) # 1 more for the logger.
@@ -299,11 +301,13 @@ class Monitorer(QObject):
         subsystem1.set_sync_barrier(barrier)
         subsystem2.set_sync_barrier(barrier)
         subsystem3.set_sync_barrier(barrier)
+        subsystem4.set_sync_barrier(barrier)
 
         # 7) Start each subsystem’s cores
         subsystem1.start()
         subsystem2.start()
         subsystem3.start()
+        subsystem4.start()
 
         # If Subsystem1 has a separate waiting queue thread, you can start that too:
         waiting_queue_thread = threading.Thread(target=subsystem1.manage_waiting_queue)
@@ -311,8 +315,9 @@ class Monitorer(QObject):
         waiting_queue_thread.start()
 
         # 8. Create and start the logger thread
-        logger_thread = LoggerThread(barrier, [subsystem1, subsystem2, subsystem3])
+        logger_thread = LoggerThread(barrier, [subsystem1, subsystem2, subsystem3, subsystem4])
         logger_thread.start()
+        
         
         ##//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -320,7 +325,8 @@ class Monitorer(QObject):
         threading.Thread(target=self.monitorer_name, args=(subsystem1.ready_queues[1], "set_ready_queue_subsys1_2")).start()
         threading.Thread(target=self.monitorer_name, args=(subsystem1.ready_queues[2], "set_ready_queue_subsys1_3")).start()
         threading.Thread(target=self.monitorer_tuple, args=(subsystem2.ready_queue, "set_ready_queue_subsys2")).start()
-        threading.Thread(target=self.monitorer_tuple, args=(subsystem3.ready_queue, "set_ready_queue_subsys3")).start() 
+        threading.Thread(target=self.monitorer_tuple, args=(subsystem3.waiting_queue, "set_ready_queue_subsys3")).start() 
+        threading.Thread(target=self.monitorer_name, args=(subsystem4.ready_queue, "set_ready_queue_subsys4")).start() 
         
         
         time.sleep(25)

@@ -5,7 +5,7 @@ import QtQuick.Layouts
 ApplicationWindow {
     visible: true
     width: 650
-    height: 700
+    height: 720
     title: "CPU Monitor"
 
     Monitor {
@@ -24,7 +24,7 @@ ApplicationWindow {
             // Header Rectangle
             Rectangle {
                 Layout.fillWidth: true
-                Layout.preferredHeight: 100 // Fixed height for header
+                Layout.preferredHeight: 50 // Fixed height for header
                 color: "lightblue"
 
                 Text {
@@ -39,7 +39,7 @@ ApplicationWindow {
             // Additional Info Rectangle
             Rectangle {
                 Layout.fillWidth: true
-                Layout.preferredHeight: 60 // Fixed height for additional info
+                Layout.preferredHeight: 30 // Fixed height for additional info
                 color: "#cccccc" // Light gray color
 
                 Text {
@@ -312,6 +312,65 @@ ApplicationWindow {
                             anchors.horizontalCenter: parent.horizontalCenter
                             anchors.margins: 5
                             text: "Ready Queue - subsys3"
+                            font.pixelSize: 14
+                        }
+                    }
+                }
+            }
+            // CPU4 Section
+            RowLayout {
+                Layout.fillWidth: true
+                spacing: 20
+
+                // CPU3 Label
+                Text {
+                    text: "CPU4"
+                    font.pixelSize: 20
+                    font.bold: true
+                    Layout.alignment: Qt.AlignVCenter
+                }
+
+                // Ready Queues for CPU3
+                ColumnLayout {
+                    Layout.fillWidth: true
+                    spacing: 10
+
+                    Rectangle {
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 85
+                        color: "transparent"
+                        border.color: "black"
+                        border.width: 2
+                        radius: 10
+
+                        Row {
+                            spacing: 10
+                            anchors.fill: parent
+                            anchors.margins: 10
+
+                            Repeater {
+                                model: monitor_pyside.back_end_ready_queue_subsys4
+                                Rectangle {
+                                    width: 70
+                                    height: 50
+                                    color: index === 0 ? "green" : "white"
+                                    border.color: "black"
+                                    border.width: 1
+                                    radius: 5
+                                    Text {
+                                        anchors.centerIn: parent
+                                        text: modelData
+                                        font.bold: index === 0
+                                    }
+                                }
+                            }
+                        }
+
+                        Text {
+                            anchors.bottom: parent.bottom
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            anchors.margins: 5
+                            text: "Ready Queue - subsys4"
                             font.pixelSize: 14
                         }
                     }

@@ -8,6 +8,7 @@ from core4 import ProcessorCoreFCFS
 
 class Subsystem4:
     def __init__(self, r1_count, r2_count):
+        print("////////////////////////////////////////the subsys4 is initiated///////////////////////////////////////")
         self.r1 = r1_count 
         self.r2 = r2_count  
         self.ready_queue = Queue() 
@@ -17,6 +18,8 @@ class Subsystem4:
         self.core1 = ProcessorCoreFCFS(1, self)  
         self.core2 = ProcessorCoreFCFS(2, self)  
         self.running = True  
+        # self.running_task = None
+        
     def add_task(self, task):
        
         with self.lock:
@@ -53,6 +56,7 @@ class Subsystem4:
         with self.lock:
             for _ in range(self.waiting_queue.qsize()):
                 task = self.waiting_queue.get()
+                # self.running_task = task
                 if all(dep in self.completed_tasks for dep in task.dependencies) and self.check_resources(task):
                     self.allocate_resources(task)
                     self.ready_queue.put(task)
@@ -74,7 +78,9 @@ class Subsystem4:
         self.core2.join()
     
     def set_sync_barrier(self, barrier):
-        for core in self.cores:
-            if hasattr(core, 'set_sync_barrier'):
-                core.set_sync_barrier(barrier)
+        # for core in self.cores:
+        #     if hasattr(core, 'set_sync_barrier'):
+        #         core.set_sync_barrier(barrier)
+        self.core1.set_sync_barrier(barrier)
+        self.core2.set_sync_barrier(barrier)
 
